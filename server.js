@@ -52,8 +52,8 @@ var routing = function () {
             fileStream.pipe(res);
         } else {
             res.writeHead(404);
+            res.end();
         }
-        res.end();
     }
 };
 
