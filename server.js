@@ -7,7 +7,7 @@ var https = require('https'),
     path = require('path'),
     fs = require('fs'),
     httpProxy = require('http-proxy'),
-    PORT = 1234;
+    PORT = process.argv[2] || 1234;
 
 var mimeTypes = {
     "html": "text/html",
@@ -22,12 +22,8 @@ var mimeTypes = {
 };
 
 var routing = function (isCannedData) {
-    var directories = [
-            process.cwd(), // current directory
-            process.cwd() + '/../vme-merchant-demo/src/main',
-            process.cwd() + '/test/selenium/lib/selenium-extensions', // selenium-extensions
-            process.cwd() + '/mock_server', // builders
-            process.cwd() + '/test/integration' // integration tests
+        var directories = [
+            process.cwd()
         ];
 
     return function (req, res) {
@@ -50,7 +46,6 @@ var routing = function (isCannedData) {
         if (filename) {
             var mimeType = mimeTypes[path.extname(filename).split(".")[1]];
             if (mimeType === 'application/pdf') {
-                //should download the pdf for ts&cs
                 res.writeHead(200, {'Content-Type': 'application/octet-stream'});
             } else {
                 res.writeHead(200, {'Content-Type': (mimeType || 'text/plain') + '; charset=utf-8'});
@@ -65,4 +60,4 @@ var routing = function (isCannedData) {
 };
 
 http.createServer(routing(false)).listen(PORT);
-console.log("checkout with mocked responses listening on port: " + PORT);
+console.log("web server start on port: " + PORT + " for directory " + process.cwd());
