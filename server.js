@@ -1,12 +1,9 @@
 "use strict";
 
-// start http server & proxy
-var https = require('https'),
-    http = require('http'),
+var http = require('http'),
     url = require('url'),
     path = require('path'),
     fs = require('fs'),
-    httpProxy = require('http-proxy'),
     PORT = process.argv[2] || 1234;
 
 var mimeTypes = {
@@ -21,7 +18,7 @@ var mimeTypes = {
     "woff": "application/font-woff"
 };
 
-var routing = function (isCannedData) {
+var routing = function () {
         var directories = [
             process.cwd()
         ];
@@ -56,6 +53,7 @@ var routing = function (isCannedData) {
         } else {
             res.writeHead(404);
         }
+        res.end();
     }
 };
 
