@@ -24,6 +24,11 @@ var routing = function () {
         ];
 
     return function (req, res) {
+    if (path.normalize(unescape(req.url)) !== unescape(req.url)) {
+        res.statusCode = 403;
+        res.end();
+        return;
+    }
         var uri = url.parse(req.url).pathname,
             filename = "";
 
